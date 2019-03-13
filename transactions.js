@@ -139,6 +139,7 @@ jQuery(document).ready(function($){
 		console.log("key press")
 	    idleTime = 0;
 	});
+	$('#myTable').DataTable();
 	document.getElementById("logout").onclick = async () =>{
 		sessionStorage.clear();
 
