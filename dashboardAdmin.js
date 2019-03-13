@@ -323,6 +323,7 @@ async function main() {
 	}
   
 }
+$.noConflict();
 jQuery(document).ready(function($){
 main()
 })
