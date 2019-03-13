@@ -7,6 +7,9 @@ login = async (username, hashedPassword) => {
 	// let query = "SELECT * FROM user WHERE username = ? AND password = ?;"
 	let query = await user_model.get_user_by_username(username);
 	console.log('query', query)
+	if(query == undefined){
+		return {result: false, code: "User does not exist"}
+	}
 	const match = await bcrypt.compare(hashedPassword, query.password);
 	let successfulLogin =  match && query.email_verify_flag.toString() == '1'  ? true : false
 	let result = successfulLogin ? {result: successfulLogin, level: query.level, ref_code: md5(query.username).slice(0,5)} : {result: successfulLogin}
