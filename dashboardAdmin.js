@@ -28,49 +28,9 @@ clamData = async () => {
 	console.log("got user data", response)
 	return response.user_balance
 }
-addRow = async (userData) =>{
-	var table = document.querySelector("#myTable");
-  
-  	var row = table.insertRow();
 
-  	row.innerHTML = "<td>" + userData.username +"</td><td>" + userData.clam_balance +"</td>"
-}
-updateUserTable = async() =>{
-	var table = document.querySelector("#myTable");
-	var rowCount = table.rows.length
 
-	for (let x=rowCount-1; x>0; x--) {
-	   table.deleteRow(x)
-	}
-	let request = url + "/frontend/all_users"
-	let user_resp = await fetch(request)
-	let users = await user_resp.json()
-	users.users.push({username: "clam_miner"})
-	for(let i=0; i<users.users.length; i++){
-		let username = users.users[i].username
-		request = url + "/users/balance"
-		let response = await fetch(request, {
-			    method: "POST",
-			    mode: "cors",
-			    body: JSON.stringify({
-			      "username": username
-			    }), // string or object
-			    headers: {
-			      'Content-Type': "application/json"
-			    }
-		  	});
-		let resp_json = await response.json()
-		if(resp_json.code == "Success"){
-			let user_data = {username : username, clam_balance: resp_json.user_balance}
-			addRow(user_data)
-			console.log("user data", user_data)
-		}else{
-			alert(resp_json.msg)
-		}
-		
-	}
-	return
-}
+
 generateDropdown = async() =>{
 	let sel = document.getElementById("userSearch")
 	let sel2 = document.getElementById("userSearch2")
@@ -125,6 +85,44 @@ async function main() {
 		console.log("key press")
 	    idleTime = 0;
 	});
+	addRow = async (userData) =>{
+	var table = $('#myTable').DataTable();
+  
+  	var row = table.row.add([userData.username, userData.clam_balance]).draw(false);
+
+	}
+	updateUserTable = async() =>{
+	var table = $('#myTable').DataTable();
+	table.clear().draw()
+	let request = url + "/frontend/all_users"
+	let user_resp = await fetch(request)
+	let users = await user_resp.json()
+	users.users.push({username: "clam_miner"})
+	for(let i=0; i<users.users.length; i++){
+		let username = users.users[i].username
+		request = url + "/users/balance"
+		let response = await fetch(request, {
+			    method: "POST",
+			    mode: "cors",
+			    body: JSON.stringify({
+			      "username": username
+			    }), // string or object
+			    headers: {
+			      'Content-Type': "application/json"
+			    }
+		  	});
+		let resp_json = await response.json()
+		if(resp_json.code == "Success"){
+			let user_data = {username : username, clam_balance: resp_json.user_balance}
+			addRow(user_data)
+			console.log("user data", user_data)
+		}else{
+			alert(resp_json.msg)
+		}
+		
+	}
+	return
+}
 	document.getElementById("logout").onclick = async () =>{
 		sessionStorage.clear();
 
