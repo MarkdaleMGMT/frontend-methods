@@ -1946,7 +1946,9 @@ header .form-inline {
 
 .legend table {
   border-spacing: 5px; }
-
+table{
+	font-size: 80% !important;
+}
 #chart1,
 #flotBar,
 #flotCurve {
