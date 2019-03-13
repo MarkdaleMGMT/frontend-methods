@@ -100,7 +100,7 @@ updateUserTable = async(username) =>{
 			})
 			for(let j = 0; j < dates.length; j++){
 				let date = dates[j]
-				addRow(date)
+				addRow(date, username)
 			}
 	}else{
 		alert("Error retrieving history!")
@@ -112,10 +112,10 @@ updateUserTable = async(username) =>{
 }
 
 jQuery(document).ready(function($){
-	addRow = async (userData) =>{
+	addRow = async (userData, name) =>{
 	var table = $('#myTable').DataTable();
   
-  	var row = table.row.add([userData.time, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
+  	var row = table.row.add([userData.time, name, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
 
 }
 addRowAdmin = async (userData, name) =>{
