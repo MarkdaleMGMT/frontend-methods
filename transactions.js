@@ -21,18 +21,16 @@ function timerIncrement() {
 }
 
 addRow = async (userData) =>{
-	var table = document.querySelector("#myTable");
+	var table = $('#myTable').DataTable();
   
-  	var row = table.insertRow();
+  	var row = table.row.add([userData.time, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
 
-  	row.innerHTML = "<td>" + userData.time +"</td><td>" + userData.description +"</td><td>" + userData.amount +"</td><td>" + userData.type +"</td><td>" + userData.user_balance +"</td>"
 }
 addRowAdmin = async (userData, name) =>{
-	var table = document.querySelector("#myTable");
+	var table = $('#myTable').DataTable();
   
-  	var row = table.insertRow();
+  	var row = table.row.add([userData.time, name, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
 
-  	row.innerHTML = "<td>" + userData.time +"</td><td>" + name + ":" + " " +  userData.description +"</td><td>" + userData.amount +"</td><td>" + userData.type +"</td><td>" + userData.user_balance +"</td>"
 }
 updateUserTable = async(username) =>{
 	var table = document.querySelector("#myTable");
