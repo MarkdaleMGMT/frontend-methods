@@ -82,7 +82,7 @@ signup = async (username, email, password, code) => {
     let response = await signup_resp.json()
     console.log("sign up data", response)
     if(response.code == "Signup successful"){
-      alert("Successful signup! Confirm your email to log in!")
+      alert("Verification e-mail sent. Check your inbox to confirm your account, (might go to your junk folder)")
       let data = {username: username, ref_code: response.ref_code}
       sessionStorage.setItem("data", JSON.stringify(data));
       sessionStorage.setItem("confirm", "false")
