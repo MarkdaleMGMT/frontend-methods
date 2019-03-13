@@ -20,18 +20,7 @@ function timerIncrement() {
     }
 }
 
-addRow = async (userData) =>{
-	var table = $('#myTable').DataTable();
-  
-  	var row = table.row.add([userData.time, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
 
-}
-addRowAdmin = async (userData, name) =>{
-	var table = $('#myTable').DataTable();
-  
-  	var row = table.row.add([userData.time, name, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
-
-}
 updateUserTable = async(username) =>{
 	var table = document.querySelector("#myTable");
 	var rowCount = table.rows.length
@@ -123,7 +112,18 @@ updateUserTable = async(username) =>{
 }
 
 jQuery(document).ready(function($){
+	addRow = async (userData) =>{
+	var table = $('#myTable').DataTable();
+  
+  	var row = table.row.add([userData.time, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
 
+}
+addRowAdmin = async (userData, name) =>{
+	var table = $('#myTable').DataTable();
+  
+  	var row = table.row.add([userData.time, name, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
+
+}
   	let data = JSON.parse( sessionStorage.getItem("data") );
 	  	//Increment the idle time counter every minute.
 	var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
