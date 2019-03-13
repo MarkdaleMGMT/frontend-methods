@@ -58,42 +58,21 @@ generateDropdown = async() =>{
 	    sel4.appendChild(opt4);
 	}
 }
-	function timerIncrement() {
-    idleTime = idleTime + 1;
-    if(idleTime == 5){
-    	$.notify("Inactivity detected. Logging out in 1 minute.", {autoHide: false});
-    	
-    }
-    else if (idleTime > 5) { // 20 minutes
-    	sessionStorage.clear();
-        location.href = "/dashboard";
-    }
-}	
-async function main() {
-	console.log("IN DASHBOARDADMIN.JS")
-
-  	let data = JSON.parse( sessionStorage.getItem("data") );
-	  	//Increment the idle time counter every minute.
-	var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
-
-	//Zero the idle timer on mouse movement.
-	$(this).mousemove(function (e) {
-		console.log("mouse move")
-	    idleTime = 0;
-	});
-	$(this).keypress(function (e) {
-		console.log("key press")
-	    idleTime = 0;
-	});
 	addRow = async (userData) =>{
-	let table = $('#myTable').DataTable();
-  
-  	let row = table.row.add([userData.username, userData.clam_balance]).draw(false);
+	var table = document.querySelector("#myTable");
 
-	}
+  	var row = table.insertRow();
+
+  	row.innerHTML = "<td>" + userData.username +"</td><td>" + userData.clam_balance +"</td>"
+}
 	updateUserTable = async() =>{
-	let table = $('#myTable').DataTable();
-	table.clear().draw()
+	
+	var table = document.querySelector("#myTable");
+	var rowCount = table.rows.length
+
+	for (let x=rowCount-1; x>0; x--) {
+	   table.deleteRow(x)
+	}
 	let request = url + "/frontend/all_users"
 	let user_resp = await fetch(request)
 	let users = await user_resp.json()
@@ -123,6 +102,34 @@ async function main() {
 	}
 	return
 }
+	function timerIncrement() {
+    idleTime = idleTime + 1;
+    if(idleTime == 5){
+    	$.notify("Inactivity detected. Logging out in 1 minute.", {autoHide: false});
+    	
+    }
+    else if (idleTime > 5) { // 20 minutes
+    	sessionStorage.clear();
+        location.href = "/dashboard";
+    }
+}	
+async function main() {
+	console.log("IN DASHBOARDADMIN.JS")
+
+  	let data = JSON.parse( sessionStorage.getItem("data") );
+	  	//Increment the idle time counter every minute.
+	var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+
+	//Zero the idle timer on mouse movement.
+	$(this).mousemove(function (e) {
+		console.log("mouse move")
+	    idleTime = 0;
+	});
+	$(this).keypress(function (e) {
+		console.log("key press")
+	    idleTime = 0;
+	});
+
 	document.getElementById("logout").onclick = async () =>{
 		sessionStorage.clear();
 
