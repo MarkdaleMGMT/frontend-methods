@@ -86,13 +86,13 @@ async function main() {
 	    idleTime = 0;
 	});
 	addRow = async (userData) =>{
-	var table = $('#myTable').DataTable();
+	let table = $('#myTable').DataTable();
   
-  	var row = table.row.add([userData.username, userData.clam_balance]).draw(false);
+  	let row = table.row.add([userData.username, userData.clam_balance]).draw(false);
 
 	}
 	updateUserTable = async() =>{
-	var table = $('#myTable').DataTable();
+	let table = $('#myTable').DataTable();
 	table.clear().draw()
 	let request = url + "/frontend/all_users"
 	let user_resp = await fetch(request)
