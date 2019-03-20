@@ -146,11 +146,6 @@ jQuery(document).ready(async function($){
 	    		display: false
 	    	},
 	        scales: {
-	            yAxes: [{
-	                ticks: {
-	                    beginAtZero:true
-	                }
-	            }],
 	            xAxes: [{
 			    ticks: {
 			        autoSkip: true,
