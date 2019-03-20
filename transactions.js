@@ -109,7 +109,8 @@ jQuery(document).ready(function($) {
 		idleTime = 0;
 	});
 	table = $('#myTable').DataTable({
-		"order": [[ 0, "desc" ]]
+		"order": [[ 0, "desc" ]],
+		"searching": true
 	});
 	document.getElementById("logout").onclick = async () => {
 		sessionStorage.clear();
