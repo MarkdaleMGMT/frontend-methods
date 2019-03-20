@@ -150,7 +150,14 @@ jQuery(document).ready(async function($){
 	                ticks: {
 	                    beginAtZero:true
 	                }
-	            }]
+	            }],
+	            xAxes: [{
+			    type: 'time',
+			    ticks: {
+			        autoSkip: true,
+			        maxTicksLimit: 8
+			    }
+			}]
 	        }
 	    }
 	});
