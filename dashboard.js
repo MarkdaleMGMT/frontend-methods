@@ -119,7 +119,7 @@ jQuery(document).ready(async function($){
 	let labels = []
 	let values= []
 	for(let j = 0; j<dates.length; j++){
-		labels.push(dates[j].time.toString().slice(2, 6))
+		labels.push(dates[j].time.toString().slice(0, 7))
 		values.push(dates[j].user_balance)
 	}
 	console.log(labels)
