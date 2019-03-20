@@ -31,33 +31,6 @@ clamData = async () => {
 
 
 
-generateDropdown = async() =>{
-	let sel = document.getElementById("userSearch")
-	let sel2 = document.getElementById("userSearch2")
-	let sel3 = document.getElementById("userSearch3")
-	let sel4 = document.getElementById("userSearch4")
-	let request = url + "/frontend/all_users"
-	let user_resp = await fetch(request)
-	let users = await user_resp.json()
-	for(let i = 0; i<users.users.length; i++) { 
-	    opt = document.createElement('option');
-	    opt.value = users.users[i].username;
-	    opt.innerHTML = users.users[i].username;
-	    opt2 = document.createElement('option');
-	    opt2.value = users.users[i].username;
-	    opt2.innerHTML = users.users[i].username;
-	    opt3 = document.createElement('option');
-	    opt3.value = users.users[i].username;
-	    opt3.innerHTML = users.users[i].username;
-	    opt4 = document.createElement('option');
-	    opt4.value = users.users[i].username;
-	    opt4.innerHTML = users.users[i].username;
-	    sel.appendChild(opt);
-	    sel2.appendChild(opt2);
-	    sel3.appendChild(opt3);
-	    sel4.appendChild(opt4);
-	}
-}
 	addRow = async (userData) =>{
 	var table = document.querySelector("#myTable");
 
@@ -146,7 +119,6 @@ async function main() {
 	}
 	console.log('data',data)
 	updateUserTable()
-	generateDropdown()
 	var username = data.username
 	let clams = await clamData()
 	console.log("clams", clams)
@@ -194,7 +166,7 @@ async function main() {
 		document.getElementById("depositButton").onclick = async () =>{
 		let amount = document.getElementById("deposit").value
 		let user = document.getElementById("userSearch")
-		let username = user.options[user.selectedIndex].value;
+		let username = user.value;
 		console.log("deposit user", username)
 		console.log("amount", amount)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount)){
@@ -238,7 +210,7 @@ async function main() {
 		let amount = document.getElementById("withdrawal").value
 		console.log("amount", amount)
 		let user = document.getElementById("userSearch2")
-		let username = user.options[user.selectedIndex].value;
+		let username = user.value;
 		console.log("deposit user", username)
 		let check_user_req = url + '/frontend/user_data/' + username
 		let cu_response = await fetch(check_user_req)
@@ -288,9 +260,9 @@ async function main() {
 		let amount = document.getElementById("transfer").value
 		console.log("amount", amount)
 		let user1 = document.getElementById("userSearch3")
-		let username1 = user1.options[user1.selectedIndex].value;
+		let username1 = user1.value;
 		let user2 = document.getElementById("userSearch4")
-		let username2 = user2.options[user2.selectedIndex].value;
+		let username2 = user2.value;
 		console.log("username", username)
 		console.log("from", username1, "to", username2)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount)){

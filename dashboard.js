@@ -101,27 +101,28 @@ jQuery(document).ready(async function($){
 					console.log("user data", user_data)
 				}
 	dates = dates.sort((a,b) => {
-				a = a.time
-				b = b.time
+				a = new Date(a.time)
+				b = new Date(b.time)
 				// console.log(a, b)
 				return a>b ? 1 : a<b ? -1 : 0;
 			})
 	console.log("dates", dates)
-	if(dates.length > 10){
-		sliced_dates =[]
-		let diff = Math.floor(dates.length/10)
-		for(let i = 0; i< dates.length; i+= diff){
-			sliced_dates.push(dates[i])
-		}
-		dates = sliced_dates
-	}
+	// if(dates.length > 10){
+	// 	sliced_dates =[]
+	// 	let diff = Math.floor(dates.length/10)
+	// 	for(let i = 0; i< dates.length; i+= diff){
+	// 		sliced_dates.push(dates[i])
+	// 	}
+	// 	dates = sliced_dates
+	// }
 	console.log("sliced dates", dates)
 	let labels = []
 	let values= []
 	for(let j = 0; j<dates.length; j++){
-		labels.push(dates[j].time.toString().slice(0,10))
+		labels.push(dates[j].time.toString())
 		values.push(dates[j].user_balance)
 	}
+	console.log(labels)
 	var ctx = document.getElementById("clam-chart").getContext('2d');
 	var myChart = new Chart(ctx, {
 	    type: 'line',
@@ -131,22 +132,13 @@ jQuery(document).ready(async function($){
 	            label: 'Clam Balance',
 	            data: values,
 	            backgroundColor: [
-	                'rgba(50,205,50, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
+	                'rgba(255,255,255, 0.2)'
 	            ],
 	            borderColor: [
-	                'rgba(173,255,47, 0.2)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
+	                'rgba(141,198,71, 0.8)'
 	            ],
-	            borderWidth: 1
+	            borderWidth: 3,
+	       		radius: 1
 	        }]
 	    },
 	    options: {
