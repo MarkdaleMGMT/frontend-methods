@@ -96,7 +96,7 @@ currencyData = async () => {
     }
 }
 getAccountsByName = async (username) =>{
-	let request = "http://localhost:3000" + "/users/balance"
+	let request = url + "/users/balance"
 	let response = await fetch(request, {
 		    method: "POST",
 		    mode: "cors",
@@ -272,7 +272,7 @@ async function main() {
 		console.log("amount", amount)
 		console.log("inv val", sel.options[sel.selectedIndex].value)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount) && parseFloat(amount) >= 0){
-	  		let request = "http://localhost:3000" + "/transactions/global_update"
+	  		let request = url + "/transactions/global_update"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",
@@ -329,7 +329,7 @@ async function main() {
 		console.log("deposit user", username)
 		console.log("amount", amount)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount)){
-	  		let request = "http://localhost:3000" + "/transactions/deposit"
+	  		let request = url + "/transactions/deposit"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",
@@ -387,7 +387,7 @@ async function main() {
 		}
 		let checkAmount = curr_balance >= parseFloat(amount)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount) && checkAmount){
-	  		let request = "http://localhost:3000" + "/transactions/withdrawal"
+	  		let request = url + "/transactions/withdrawal"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",
@@ -452,7 +452,7 @@ async function main() {
 		}
 		let checkAmount = curr_balance >= parseFloat(amount)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount) && checkAmount){
-			let request = "http://localhost:3000" + "/transactions/transfer"
+			let request = url + "/transactions/transfer"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",

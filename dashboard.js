@@ -1,6 +1,6 @@
 
-
-if (document.cookie.indexOf("CrewCentreSession=Valid") == -1) {
+var url = sessionStorage.getItem("url")
+if (document.cookie.indexOf("CrewCentreSession=Valid") == -1 || url == null || url == undefined) {
   location.href = "/dashboard";
 }
 var data = JSON.parse( sessionStorage.getItem("data") );
@@ -9,7 +9,7 @@ if(data.admin == true){
 	location.href = "/dashboard";
 }
 
-var url = sessionStorage.getItem("url")
+
 var idleTime = 0;
 var balance_currency = "clam_balance"
 var currency = [{currency: "CLAM", click: true}, {currency: "BTC", click: false}, {currency: "OZ", click: false}, {currency: "CAD", click: false}, {currency: "USD", click: false}]
@@ -49,7 +49,7 @@ userData = async (username) => {
   	let request = url + "/frontend/user_data/" + username // change this to ayeshas
 	let deposit_resp = await fetch(request);
 	let response = await deposit_resp.json()
-	let request2 = "http://localhost:3000" + "/users/balance"
+	let request2 = url+ "/users/balance"
 	let deposit_resp2 = await fetch(request2, {
 			    method: "POST",
 			    mode: "cors",
@@ -99,7 +99,7 @@ updateGraph = async (username) =>{
 
 		if(ud[1][i].investment_id == investment_id){
 			console.log("found investment id")
-			let request = "http://localhost:3000" + "/users/transaction_history"
+			let request = url + "/users/transaction_history"
 			let user_resp = await fetch(request, {
 					    method: "POST",
 					    mode: "cors",
@@ -312,7 +312,7 @@ jQuery(document).ready(async function($){
 			let sel = document.getElementById('investment-select')
 			let selected_currency = await currentCurrency()
 			let investment_id = sel.options[sel.selectedIndex].value
-			let request = "http://localhost:3000" + "/transactions/transfer"
+			let request = url + "/transactions/transfer"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",

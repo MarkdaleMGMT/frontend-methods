@@ -21,7 +21,8 @@ handleChange = (event) => {
 function stringValidator(string){
   return string.trim() == "" || string == null || string == "pass"
 }
-var url = "http://165.227.35.11"
+
+var url = "http://localhost:3001"
 
 updatePassword = async (pass) => {
   let page = new URL(window.location.href)
