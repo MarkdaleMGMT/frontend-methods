@@ -492,7 +492,7 @@ async function main() {
 		  }
 		
 	}
-	document.getElementById("transferButton").onclick = async () =>{
+	document.getElementById("createButton").onclick = async () =>{
 		let user = document.getElementById("userSearch5").value
 		let request = url + "/accounts/create_account"
 			let response = await fetch(request, {
