@@ -16,14 +16,26 @@ function timerIncrement() {
 	}
 }
 
+getAccountsByName = async (username) =>{
+	let request = "http://localhost:3000" + "/users/balance"
+	let response = await fetch(request, {
+		    method: "POST",
+		    mode: "cors",
+		    body: JSON.stringify({
+		    	"key": "username",
+		      "value": username
+		    }), // string or object
+		    headers: {
+		      'Content-Type': "application/json"
+		    }
+	  	});
+	response = await response.json()
+	console.log("response", response, username)
+	return response.user_balance
+}
+getUserTable = async (username) => {
 
-updateUserTable = async (username, table) => {
-	var rowCount = table.rows.length
-
-	for (let x = rowCount - 1; x > 0; x--) {
-		table.deleteRow(x)
-	}
-	let request = url + "/users/transaction_history"
+	let request = "http://localhost:3000" + "/users/transaction_history"
 	if (data.admin) {
 		let request_users = "http://localhost:3001" + "/frontend/all_users"
 		let user_resp = await fetch(request_users)
@@ -31,70 +43,74 @@ updateUserTable = async (username, table) => {
 		let dates = []
 		for (let i = 0; i < users.users.length; i++) {
 			username = users.users[i].username
+			let accounts = await getAccountsByName(username)
+			for(let j = 0; j < accounts.length; j++){
+				let acc = accounts[j]
+				let user_resp = await fetch(request, {
+				method: "POST",
+				mode: "cors",
+				body: JSON.stringify({
+					"account_id": acc.account_id
+				}), // string or object
+				headers: {
+					'Content-Type': "application/json"
+				}
+				});
+				let history = await user_resp.json()
+
+				if (history.code == "Success") {
+					for (let i = 0; i < history.transaction_history.length; i++) {
+						let user_data = history.transaction_history[i]
+						dates.push([user_data.time, user_data.currency, username, user_data.description, user_data.amount, user_data.type, user_data.account_balance])
+
+						console.log("user data", user_data)
+					}
+				} else {
+					alert("Error retrieving history!")
+				}
+			}
+			
+		}
+		return dates
+
+
+	} else {
+		console.log("not admin")
+		let dates = []
+		let accounts = await getAccountsByName(username)
+		console.log(accounts)
+		for(let j = 0; j < accounts.length; j++){
+			let acc = accounts[j]
 			let user_resp = await fetch(request, {
 				method: "POST",
 				mode: "cors",
 				body: JSON.stringify({
-					"username": username,
+					"account_id": acc.account_id
 				}), // string or object
 				headers: {
 					'Content-Type': "application/json"
 				}
 			});
 			let history = await user_resp.json()
-
 			if (history.code == "Success") {
-				for (let i = 0; i < history.transaction_history.length; i++) {
-					let user_data = history.transaction_history[i]
-					dates.push([user_data, username])
-					addRowAdmin(user_data, username, table)
 
-					console.log("user data", user_data)
+				for (let j = 0; j < history.transaction_history.length; j++) {
+					let user_data = history.transaction_history[j]
+					dates.push([user_data.time, user_data.currency, username, user_data.description, user_data.amount, user_data.type, user_data.account_balance])
 				}
 			} else {
 				alert("Error retrieving history!")
 			}
 		}
-
-	} else {
-		console.log("not admin")
-		let user_resp = await fetch(request, {
-			method: "POST",
-			mode: "cors",
-			body: JSON.stringify({
-				"username": username,
-			}), // string or object
-			headers: {
-				'Content-Type': "application/json"
-			}
-		});
-		let history = await user_resp.json()
-		if (history.code == "Success") {
-
-			for (let j = 0; j < history.transaction_history.length; j++) {
-				let date = history.transaction_history[j]
-				addRow(date, username, table)
-			}
-		} else {
-			alert("Error retrieving history!")
-		}
+		return dates
 
 	}
 
 	return
 }
 
-jQuery(document).ready(function($) {
-	addRow = async (userData, name, table) => {
+jQuery(document).ready(async function($) {
 
-		var row = table.row.add([userData.time, name, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
-
-	}
-	addRowAdmin = async (userData, name, table) => {
-
-		var row = table.row.add([userData.time, name, userData.description, userData.amount, userData.type, userData.user_balance]).draw(false);
-
-	}
 	let data = JSON.parse(sessionStorage.getItem("data"));
 	//Increment the idle time counter every minute.
 	var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
@@ -108,10 +124,44 @@ jQuery(document).ready(function($) {
 		console.log("key press")
 		idleTime = 0;
 	});
-	table = $('#myTable').DataTable({
+	console.log('data', data)
+	var username = data.username
+	let dataset = await getUserTable(username)
+	var table
+	if(data.admin){
+		table = $('#myTable').DataTable({
 		"order": [[ 0, "desc" ]],
-		"searching": true
+		"searching": true,
+		"data": dataset,
+		"autoWidth": true,
+		"columns": [
+            { title: "Time" },
+            {title: "Currency"},
+            { title: "Name" },
+            { title: "Description" },
+            { title: "Amount" },
+            { title: "Type" },
+            { title: "Balance" }
+        ]
 	});
+	}else{
+		table = $('#myTable').DataTable({
+		"order": [[ 0, "desc" ]],
+		"searching": true,
+		"data": dataset,
+		"autoWidth": true,
+		"columns": [
+            { title: "Time" },
+            {title: "Currency"},
+            { title: "Name" },
+            { title: "Description" },
+            { title: "Amount" },
+            { title: "Type" },
+            { title: "Balance" }
+        ]
+	});
+	}
+
 	document.getElementById("logout").onclick = async () => {
 		sessionStorage.clear();
 
@@ -125,9 +175,9 @@ jQuery(document).ready(function($) {
 			return window.location.href = 'dashboard.html';
 		}
 	}
-	console.log('data', data)
-	var username = data.username
-	updateUserTable(username, table)
+	
+	
+	
 
 
 });

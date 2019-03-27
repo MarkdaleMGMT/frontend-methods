@@ -1,5 +1,5 @@
 var {user_model} = require('../models')
-
+var db = require('../util/mysql_connection')
 
 sortUsers = async (users) => {
 	let allUsers = []
@@ -21,11 +21,15 @@ sortUsers = async (users) => {
 } 
 module.exports = async function allusers_api(req, res) {
 	try{
+        console.log("Getting all users")
+        const [users2, fields2] = await db.connection.query("SELECT * FROM user WHERE username != 'clam_miner';");
+        console.log("test", users2)
 		let users = await user_model.get_all_users()
 		let sorted = await sortUsers(users)
 	    res.send({code: "success", users: sorted.users, admins: sorted.admins})
  	}
  	catch(err){
+        console.log(err)
  		res.status(400).send({msg: 'Failed getting all users', err});	
  	}
  }

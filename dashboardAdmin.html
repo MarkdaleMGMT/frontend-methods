@@ -87,14 +87,45 @@
         </div>
 
         <div class="content mt-3">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="CLAM" data-toggle="pill" href="#pills-home" role="tab" >CLAM</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="BTC" data-toggle="pill" href="#pills-profile" role="tab" >BTC</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="CAD" data-toggle="pill" href="#pills-contact" role="tab" >CAD</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="USD" data-toggle="pill" href="#pills-contact" role="tab" >USD</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="GOLD" data-toggle="pill" href="#pills-contact" role="tab" >GOLD</a>
+                                    </li>
+                                    <select id="investment-select" onchange="updateInvestment()">
 
-
+                                    </select>
+                                </ul>
+            
             <div class="col-xl-3 col-lg-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-one">
                             <div class="stat-content dib">
-                                <div class="stat-text">Clam Miner Balance</div>
+                                <div class="stat-text">Total Balance</div>
+                                <div class="stat-digit" id="total_amount"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-content dib">
+                                <div class="stat-text" id="curr_balance">CLAM Balance</div>
                                 <div class="stat-digit" id="amount"></div>
                             </div>
                         </div>
@@ -102,8 +133,20 @@
                 </div>
             </div>
             <div class="card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-content dib">
+                                <div class="stat-text">Investment Balance</div>
+                                <div class="stat-digit" id="investment_amount"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
                                     <div class="card-header">
-                                        <strong>Update Clam Miner Balance</strong>
+                                        <strong>Update Balance</strong>
                                     </div>
                                     <div class="card-body">
                                      <input type="text" name="text-input" placeholder="Amount" class="form-control" id="update">
@@ -164,7 +207,8 @@
                                     <thead>
                                         <tr>
                                            <th scope="col">Username</th>
-                                            <th scope="col">Clam Balance</th> 
+                                            <th scope="col">Investment ID</th> 
+                                            <th scope="col">Balance</th> 
                                         </tr>
                                     </thead>
                                     <tbody>

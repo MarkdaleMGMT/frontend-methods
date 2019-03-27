@@ -26,7 +26,7 @@ function validateEmail(email){
 function stringValidator(string){
   return string.trim() == "" || string == null || string == "username" || string == "pass" || string == "code"
 }
-var url = "http://165.227.35.11"
+var url = "http://localhost:3001"
 signup = async (username, email, password, code) => {
   if(stringValidator(username) || stringValidator(email) || stringValidator(password) || stringValidator(code)){
     alert("Please fill in the form!")

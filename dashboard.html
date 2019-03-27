@@ -51,12 +51,23 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active" id="dashboard">
-                        <a href="#"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+                    <li class="active" >
+                        <a href="#" id="CLAM"> <i class="menu-icon fa fa-bar-chart-o"></i>CLAM </a>
                     </li>
-
+                    <li class="active" >
+                        <a href="#" id="CAD"> <i class="menu-icon fa fa-bar-chart-o"></i>CAD </a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" id="USD"> <i class="menu-icon fa fa-bar-chart-o"></i>USD </a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" id="GOLD"> <i class="menu-icon fa fa-bar-chart-o"></i>GOLD </a>
+                    </li>
+                    <li class="active" >
+                        <a href="#" id="BTC"> <i class="menu-icon fa fa-bar-chart-o"></i>BTC </a>
+                    </li>
                     <li>
-                        <a href="transactions.html"> <i class="menu-icon ti-email"></i>Transaction History </a>
+                        <a href="transactions.html"> <i class="menu-icon fa fa-drivers-license-o"></i>Transaction History </a>
                     </li>
                     
                 <li id="logout">
@@ -87,19 +98,35 @@
 
         <div class="content mt-3">
 
-
+            
+                                    
             <div class="col-xl-3 col-lg-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-one">
                 
                             <div class="stat-content dib">
-                                <div class="stat-text">Clam Miner Balance</div>
+                                <div class="stat-text">Balance</div>
                                 <div class="stat-digit" id="amount"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                
+                            <div class="stat-content dib">
+                                <div class="stat-text">Investment</div>
+                                <select id="investment-select">
+
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
             </div>
             <div class="col-xl-3 col-lg-6">
                 <div class="card">
@@ -117,12 +144,12 @@
                  
 
                             <div class="card-body">
-                                <h4 class="mb-3">Clam Miner Balance</h4>
+                                <h4 class="mb-3">Balance</h4>
                                 <canvas id="clam-chart"></canvas>
                             </div>
 
              </div>
-            <div class="card">
+            <div class="card" id="widgets">
 
           <coingecko-coin-ticker-widget   coin-id="clams" currency="cad" locale="en"></coingecko-coin-ticker-widget>
 <coingecko-coin-converter-widget coin-id="clams" currency="cad" background-color="#ffffff" font-color="#4c4c4c" locale="en"></coingecko-coin-converter-widget>

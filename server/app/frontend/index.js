@@ -11,6 +11,7 @@ Date.prototype.toMysqlFormat = function() {
 app.post('/login', require("./login"))
 app.post('/signup', require("./signup"))
 app.get('/all_users', require("./allUsers"))
+app.get('/all_investments', require("./allInvestments"))
 app.get('/clam_balance', require("./clamBalance"))
 app.get('/user_data/:username', require("./userData"))
 app.post('/reset_password', require('./resetPassword'))
