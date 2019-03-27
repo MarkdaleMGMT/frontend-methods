@@ -95,9 +95,11 @@ updateGraph = async (username) =>{
 
 	let investment_id = sel.options[sel.selectedIndex].value
 	console.log("ud", ud, investment_id)
+	let match = false
 	for(let i = 0; i < ud[1].length; i++){
 
 		if(ud[1][i].investment_id == investment_id){
+			match = true
 			console.log("found investment id")
 			let request = url + "/users/transaction_history"
 			let user_resp = await fetch(request, {
@@ -167,6 +169,40 @@ updateGraph = async (username) =>{
 			    }
 			});
 		}
+	}
+	if(!match){
+		var ctx = document.getElementById("clam-chart").getContext('2d');
+			var myChart = new Chart(ctx, {
+			    type: 'line',
+			    data: {
+			        labels: [],
+			        datasets: [{
+			            label: 'Balance',
+			            data: [],
+			            backgroundColor: [
+			                'rgba(255,255,255, 0.2)'
+			            ],
+			            borderColor: [
+			                'rgba(141,198,71, 0.8)'
+			            ],
+			            borderWidth: 3,
+			       		radius: 1
+			        }]
+			    },
+			    options: {
+			    	legend: {
+			    		display: false
+			    	},
+			        scales: {
+			            xAxes: [{
+					    ticks: {
+					        autoSkip: true,
+					        maxTicksLimit: 8
+					    }
+					}]
+			        }
+			    }
+			});
 	}
 	
 }
