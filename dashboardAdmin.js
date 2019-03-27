@@ -96,7 +96,7 @@ currencyData = async () => {
     }
 }
 getAccountsByName = async (username) =>{
-	let request = url + "/users/balance"
+	let request = "http://localhost:3000" + "/users/balance"
 	let response = await fetch(request, {
 		    method: "POST",
 		    mode: "cors",
@@ -153,11 +153,8 @@ generateDropdown = async () =>{
 
 }
 changePageCurrency = async(cur) =>{
-	balance_currency = cur.toLowerCase() + "_balance"
-	let curr = await currencyData()
-	document.getElementById("curr_balance").innerHTML = cur.toUpperCase() + " Balance"
-	document.getElementById("amount").innerHTML = curr[0][balance_currency]
-	document.getElementById("total_amount").innerHTML = curr[0].total_balance
+	let sel = document.getElementById("investment-select")
+	document.getElementById("curr_balance").innerHTML = sel.options[sel.selectedIndex].innerHTML + " Balance"
 	await generateDropdown()
 	await updateInvestment()
 	await updateUserTable()
@@ -199,8 +196,6 @@ async function main() {
 	var username = data.username
 	let clams = await currencyData()
 	console.log("clams", clams)
-	document.getElementById("total_amount").innerHTML = clams[0].total_balance
-	document.getElementById("amount").innerHTML = clams[0][balance_currency]
 	updateInvestment()
 		document.getElementById("CLAM").onclick = async () =>{
 		for(let i = 0; i < currency.length; i++){
@@ -272,7 +267,7 @@ async function main() {
 		console.log("amount", amount)
 		console.log("inv val", sel.options[sel.selectedIndex].value)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount) && parseFloat(amount) >= 0){
-	  		let request = url + "/transactions/global_update"
+	  		let request = "http://localhost:3000" + "/transactions/global_update"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",
