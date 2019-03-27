@@ -158,9 +158,9 @@ changePageCurrency = async(cur) =>{
 	document.getElementById("curr_balance").innerHTML = cur.toUpperCase() + " Balance"
 	document.getElementById("amount").innerHTML = curr[0][balance_currency]
 	document.getElementById("total_amount").innerHTML = curr[0].total_balance
-	generateDropdown()
-	updateInvestment()
-	updateUserTable()
+	await generateDropdown()
+	await updateInvestment()
+	await updateUserTable()
 }
 
 async function main() {
