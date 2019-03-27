@@ -492,6 +492,30 @@ async function main() {
 		  }
 		
 	}
+	document.getElementById("transferButton").onclick = async () =>{
+		let user = document.getElementById("userSearch5").value
+		let request = url + "/accounts/create_account"
+			let response = await fetch(request, {
+			    method: "POST",
+			    mode: "cors",
+			    body: JSON.stringify({
+					"username":user,
+					"investment_id": sel.options[sel.selectedIndex].value
+			    }), // string or object
+			    headers: {
+			      'Content-Type': "application/json"
+			    }
+		  	});
+		  response = await response.json()
+		  if(response.code == "Account creation successful"){
+		  	$.notify("Account creation successful", "success")
+		  	updateUserTable()
+		  }else{
+		  	alert("Account creation failed!")
+		  	$.notify("Account creation failed!", "warn")
+		  }
+
+	}
   
 }
 jQuery(document).ready(function($){
