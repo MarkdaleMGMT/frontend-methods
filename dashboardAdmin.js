@@ -153,8 +153,7 @@ generateDropdown = async () =>{
 
 }
 changePageCurrency = async(cur) =>{
-	let sel = document.getElementById("investment-select")
-	document.getElementById("curr_balance").innerHTML = sel.options[sel.selectedIndex].innerHTML + " Balance"
+
 	await generateDropdown()
 	await updateInvestment()
 	await updateUserTable()
