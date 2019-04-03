@@ -97,7 +97,7 @@ currencyData = async () => {
     }
 }
 getAccountsByName = async (username) =>{
-	let request = "http://localhost:3000" + "/users/balance"
+	let request = url + "/users/balance"
 	let response = await fetch(request, {
 		    method: "POST",
 		    mode: "cors",
@@ -133,6 +133,7 @@ updateInvestment = async () =>{
 			return
 		}
 	}
+	console.log("no inv id found", sel.options[sel.selectedIndex].value)
 }
 generateDropdown = async () =>{
 	let sel = document.getElementById("investment-select")
@@ -268,13 +269,13 @@ async function main() {
 		console.log("amount", amount)
 		console.log("inv val", sel.options[sel.selectedIndex].value)
 		if(amount != null && amount != undefined && amount != "" && !isNaN(amount) && parseFloat(amount) >= 0){
-	  		let request = "http://localhost:3000" + "/transactions/global_update"
+	  		let request = url + "/transactions/global_update"
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",
 			    body: JSON.stringify({
 			    	"investment_id": sel.options[sel.selectedIndex].value,
-			    	"username": "admin_miner",
+			    	"username": username,
 			      "amount": parseFloat(amount)
 			    }), // string or object
 			    headers: {

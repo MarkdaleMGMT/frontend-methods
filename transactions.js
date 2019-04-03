@@ -17,7 +17,7 @@ function timerIncrement() {
 }
 
 getAccountsByName = async (username) =>{
-	let request = url + "/users/balance"
+	let request = "http://localhost:3000" + "/users/balance"
 	let response = await fetch(request, {
 		    method: "POST",
 		    mode: "cors",
@@ -35,7 +35,7 @@ getAccountsByName = async (username) =>{
 }
 getUserTable = async (username) => {
 
-	let request = url + "/users/transaction_history"
+	let request = "http://localhost:3000" + "/users/transaction_history"
 	if (data.admin) {
 		let request_users = url + "/frontend/all_users"
 		let user_resp = await fetch(request_users)
