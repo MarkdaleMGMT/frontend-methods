@@ -509,7 +509,8 @@ async function main() {
 		  response = await response.json()
 		  if(response.code == "Investment creation successful"){
 		  	$.notify("Investment creation successful", "success")
-		  	updateUserTable()
+		  	await updateUserTable()
+		  	await generateDropdown()
 		  }else{
 		  	alert("Investment creation failed!")
 		  	$.notify("Investment creation failed!", "warn")
