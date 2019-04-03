@@ -131,6 +131,7 @@ updateInvestment = async () =>{
 			return
 		}
 	}
+	await updateUserTable()
 }
 generateDropdown = async () =>{
 	let sel = document.getElementById("investment-select")
@@ -157,7 +158,6 @@ changePageCurrency = async(cur) =>{
 
 	await generateDropdown()
 	await updateInvestment()
-	await updateUserTable()
 }
 
 async function main() {
