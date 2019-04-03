@@ -488,7 +488,7 @@ async function main() {
 		
 	}
 	document.getElementById("createButton").onclick = async () =>{
-		let request = url + "/accounts/create_account"
+		let request = url + "/investments/create"
 		let curr_currency = currentCurrency()
 			let response = await fetch(request, {
 			    method: "POST",
