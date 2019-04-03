@@ -51,7 +51,7 @@ currencyData = async () => {
 
   	var row = table.insertRow();
 
-  	row.innerHTML = "<td>" + userData.username +"</td>" + "<td>" + userData.investment_id +"</td>" + "<td>" + userData.balance +"</td>"
+  	row.innerHTML = "<td>" + userData.username +"</td>" + "<td>" + userData.balance +"</td>"
 }
 	updateUserTable = async() =>{
 	
@@ -68,11 +68,12 @@ currencyData = async () => {
 	for(let i=0; i<users.users.length; i++){
 		let username = users.users[i].username
 		let resp_json = await getAccountsByName(username)
-		let c_curr = currentCurrency()
+		let sel = document.getElementById('investment-select')
+		let curr_inv = sel.options[sel.selectedIndex].value;
 		for(let j = 0; j < resp_json.length; j++){
-			if(resp_json[j].currency == c_curr){
+			if(resp_json[j].investment_id == curr_inv){
 
-				let user_data = {username : username, balance: resp_json[j].balance, investment_id: resp_json[j].investment_id}
+				let user_data = {username : username, balance: resp_json[j].balance}
 				addRow(user_data)
 				console.log("user data", user_data)
 			}
@@ -152,7 +153,7 @@ generateDropdown = async () =>{
 	}
 
 }
-changePageCurrency = async(cur) =>{
+changePageCurrency = async(cur) =>{	
 
 	await generateDropdown()
 	await updateInvestment()
@@ -487,26 +488,31 @@ async function main() {
 		
 	}
 	document.getElementById("createButton").onclick = async () =>{
-		let user = document.getElementById("userSearch5").value
 		let request = url + "/accounts/create_account"
+		let curr_currency = currentCurrency()
 			let response = await fetch(request, {
 			    method: "POST",
 			    mode: "cors",
 			    body: JSON.stringify({
-					"username":user,
-					"investment_id": sel.options[sel.selectedIndex].value
+					"username":username,
+					"currency": curr_currency,
+					"investment_name": document.getElementById("createInvest1").value,
+					"description": document.getElementById("createInvest2").value,
+					"rake": document.getElementById("createInvest3").value,
+					"affiliate_rake": document.getElementById("createInvest4").value,
+					"fx_rake": document.getElementById("createInvest5").value
 			    }), // string or object
 			    headers: {
 			      'Content-Type': "application/json"
 			    }
 		  	});
 		  response = await response.json()
-		  if(response.code == "Account creation successful"){
-		  	$.notify("Account creation successful", "success")
+		  if(response.code == "Investment creation successful"){
+		  	$.notify("Investment creation successful", "success")
 		  	updateUserTable()
 		  }else{
-		  	alert("Account creation failed!")
-		  	$.notify("Account creation failed!", "warn")
+		  	alert("Investment creation failed!")
+		  	$.notify("Investment creation failed!", "warn")
 		  }
 
 	}
