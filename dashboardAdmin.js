@@ -121,17 +121,18 @@ currentCurrency = () =>{
 	console.log("ERROR -> found no current currency")
 }
 updateInvestment = async () =>{
+	console.log("updating investment")
 	let cd = await currencyData()
 	cd = cd[1]
 	let sel = document.getElementById('investment-select')
 	let curr_inv = sel.options[sel.selectedIndex].value;
+	await updateUserTable()
 	for(let i = 0; i < cd.length; i++){
 		if(cd[i].investment_id == curr_inv){
 			document.getElementById("investment_amount").innerHTML = cd[i].balance
 			return
 		}
 	}
-	await updateUserTable()
 }
 generateDropdown = async () =>{
 	let sel = document.getElementById("investment-select")
