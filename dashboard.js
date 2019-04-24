@@ -11,10 +11,10 @@ if(data.admin == true){
 
 
 var idleTime = 0;
-var balance_currency = "clam_balance"
-var currency = [{currency: "CLAM", click: true}, {currency: "BTC", click: false}, {currency: "OZ", click: false}, {currency: "CAD", click: false}, {currency: "USD", click: false}]
+var balance_currency = "clam_balance" // current balance currency    
+var currency = [{currency: "CLAM", click: true}, {currency: "BTC", click: false}, {currency: "OZ", click: false}, {currency: "CAD", click: false}, {currency: "USD", click: false}]// current tab clicked
 function timerIncrement() {
-    idleTime = idleTime + 1;
+    idleTime = idleTime + 1; // detects inactivity
     if(idleTime == 5){
     	$.notify("Inactivity detected. Logging out in 1 minute.", {autoHide: false});
     }
@@ -23,7 +23,7 @@ function timerIncrement() {
         location.href = "/dashboard";
     }
 }
-generateDropdown = async () =>{
+generateDropdown = async () =>{ // generates investment dropdown for a currency
 	let sel = document.getElementById("investment-select")
 	sel.innerHTML = ""
 	let request = url + "/frontend/all_investments"
@@ -44,9 +44,9 @@ generateDropdown = async () =>{
 	}
 
 }
-userData = async (username) => {
+userData = async (username) => { // get user data
 	console.log(username)
-  	let request = url + "/frontend/user_data/" + username // change this to ayeshas
+  	let request = url + "/frontend/user_data/" + username // TODO: change this to ayeshas
 	let deposit_resp = await fetch(request);
 	let response = await deposit_resp.json()
 	let request2 = url+ "/users/balance"
@@ -67,7 +67,7 @@ userData = async (username) => {
 	let CLAM = 0
 	let USD = 0
 	let CAD = 0
-	for(let i = 0; i < response2.user_balance.length; i++){
+	for(let i = 0; i < response2.user_balance.length; i++){ // gets balance of each currency
 		let inv = response2.user_balance[i]
 		if(inv.currency == "CLAM"){
 			CLAM += inv.balance
@@ -89,7 +89,7 @@ userData = async (username) => {
 	console.log(user_investments)
 	return [user_investments, response2.user_balance]
 }
-updateGraph = async (username) =>{
+updateGraph = async (username) =>{ 
 	let ud = await userData(username)
 	let sel = document.getElementById('investment-select')
 
@@ -98,10 +98,10 @@ updateGraph = async (username) =>{
 	let match = false
 	for(let i = 0; i < ud[1].length; i++){
 
-		if(ud[1][i].investment_id == investment_id){
+		if(ud[1][i].investment_id == investment_id){ // finds the correcct investment id
 			match = true
 			console.log("found investment id")
-			let request = url + "/users/transaction_history"
+			let request = url + "/users/transaction_history" // get transaction history
 			let user_resp = await fetch(request, {
 					    method: "POST",
 					    mode: "cors",
@@ -120,7 +120,7 @@ updateGraph = async (username) =>{
 							
 							console.log("user data", user_data)
 						}
-			dates = dates.sort((a,b) => {
+			dates = dates.sort((a,b) => {    // sorts dates
 						a = new Date(a.time)
 						b = new Date(b.time)
 						// console.log(a, b)
@@ -136,7 +136,7 @@ updateGraph = async (username) =>{
 			}
 			console.log("labels", labels)
 
-			var ctx = document.getElementById("clam-chart").getContext('2d');
+			var ctx = document.getElementById("clam-chart").getContext('2d'); // initialize graph
 			var myChart = new Chart(ctx, {
 			    type: 'line',
 			    data: {
@@ -171,7 +171,7 @@ updateGraph = async (username) =>{
 		}
 	}
 	if(!match){
-		var ctx = document.getElementById("clam-chart").getContext('2d');
+		var ctx = document.getElementById("clam-chart").getContext('2d'); // generate empty graph if investment id not selected
 			var myChart = new Chart(ctx, {
 			    type: 'line',
 			    data: {
@@ -206,7 +206,7 @@ updateGraph = async (username) =>{
 	}
 	
 }
-currentCurrency = () =>{
+currentCurrency = () =>{ // finds current currency
 	for(let i = 0; i < currency.length; i++){
 		if(currency[i].click == true){
 			return currency[i].currency
@@ -215,13 +215,13 @@ currentCurrency = () =>{
 	console.log("ERROR -> found no current currency")
 }
 
-refreshData = async(username) =>{
+refreshData = async(username) =>{ // updates divs with new data
 	let user_data = await userData(username)
 	user_data = user_data[0]
 	document.getElementById("amount").innerHTML = user_data[balance_currency]
 	document.getElementById("ref_code").innerHTML = user_data.ref_code
 }
-changePageCurrency = async(currency, username) =>{
+changePageCurrency = async(currency, username) =>{  // changes page currency
 	balance_currency = currency.toLowerCase() + "_balance"
 	refreshData(username)
 }
@@ -244,7 +244,7 @@ jQuery(document).ready(async function($){
 	console.log('data',data)
 	var username = data.username
 	generateDropdown()
-	document.getElementById("CLAM").onclick = async () =>{
+	document.getElementById("CLAM").onclick = async () =>{ // selecting CLAM tab
 		for(let i = 0; i < currency.length; i++){
 			console.log(currency[i].currency)
 			if(currency[i].currency != "CLAM"){
@@ -260,7 +260,7 @@ jQuery(document).ready(async function($){
 		console.log(currency)
 
 	}
-	document.getElementById("BTC").onclick = async () =>{
+	document.getElementById("BTC").onclick = async () =>{ // selecting BTC tab
 		for(let i = 0; i < currency.length; i++){
 			if(currency[i].currency != "BTC"){
 				currency[i].click = false
@@ -275,7 +275,7 @@ jQuery(document).ready(async function($){
 		console.log(currency)
 
 	}
-	document.getElementById("GOLD").onclick = async () =>{
+	document.getElementById("GOLD").onclick = async () =>{ // selecting GOLD tab
 		for(let i = 0; i < currency.length; i++){
 			if(currency[i].currency != "OZ"){
 				currency[i].click = false
@@ -283,7 +283,7 @@ jQuery(document).ready(async function($){
 				currency[i].click = true
 			}
 		}
-		document.getElementById("widgets").innerHTML = ''
+		document.getElementById("widgets").innerHTML = '' // remove widgets
 		await changePageCurrency("GOLD", username)
 		await generateDropdown()
 		await updateGraph(username)
@@ -320,9 +320,9 @@ jQuery(document).ready(async function($){
 		console.log(currency)
 
 	}
-	document.getElementById("logout").onclick = async () =>{
+	document.getElementById("logout").onclick = async () =>{ // handles logout
 		sessionStorage.clear();
-		let data = JSON.parse( sessionStorage.getItem("data") );
+		let data = JSON.parse( sessionStorage.getItem("data") ); // clears session data
 		console.log("logout", data)
       return window.location.href = 'index.html'
 

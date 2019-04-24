@@ -8,9 +8,9 @@ sortUsers = async (users) => {
         let user = users[i]
         let balance = await user_model.get_balance(user.username)
 
-        allUsers.push({username: user.username, clam_balance: balance, email: user.email})    
+        allUsers.push({username: user.username, clam_balance: balance, email: user.email}) // clam_balance depreciated    
         
-        if(user.level == 0){
+        if(user.level == 0){ // sort users into admin and all users
             admins.push({username: user.username})
         }
         

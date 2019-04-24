@@ -1,7 +1,9 @@
 var {user_model} = require('../models')
 var db = require('../util/mysql_connection')
 
-
+/**
+ * Returns all investments
+ */
 module.exports = async function allinvestments_api(req, res) {
 	try{
         console.log("Getting all investments")
